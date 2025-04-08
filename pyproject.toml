@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "todoist-voice-bot"
+version = "0.1.0"
+description = ""
+authors = ["Z1pP <maxm_99@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+black = "^25.1.0"
+ruff = "^0.11.4"
+aiogram = "^3.19.0"
+todoist-api-python = "^2.1.7"
+requests = "^2.32.3"
+python-dotenv = "^1.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

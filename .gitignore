@@ -1,0 +1,43 @@
+# Основные файлы Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Виртуальное окружение (Poetry)
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# Файлы IDE
+*.iml
+*.iws
+.idea/
+.tmproj
+.vscode/
+
+# Логи и временные файлы
+logs/
+*.log
+*.tmp
+*.tmp.*
+*.bak
+*.swp
+*~
+
+# Файлы конфигурации
+.env
+.secrets
+todoist_api_token.txt
+telegram_token.txt
+
+# Poetry
+.poetry/
+.pytest_cache/  # Если используется pytest
+
+# Дополнительные
+.DS_Store
+Thumbs.db
