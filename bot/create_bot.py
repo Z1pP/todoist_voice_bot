@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 async def create_bot():
     bot = Bot(token=settings.bot_token)
+    # Установка команд
     await set_commands(bot)
     dp = Dispatcher()
     # Регистрируем роутеры в боте

@@ -41,3 +41,5 @@ telegram_token.txt
 # Дополнительные
 .DS_Store
 Thumbs.db
+
+task.me
