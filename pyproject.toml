@@ -13,6 +13,7 @@ aiogram = "^3.19.0"
 todoist-api-python = "^2.1.7"
 requests = "^2.32.3"
 python-dotenv = "^1.1.0"
+openai-whisper = "^20240930"
 aiofiles = "^24.1.0"
 
 
