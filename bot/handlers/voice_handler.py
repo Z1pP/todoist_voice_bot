@@ -4,6 +4,7 @@ from aiogram import F, Router
 from aiogram.types import Message
 
 from config import settings
+from transcribe import TranscribeAudio
 
 router = Router(name="voice_router")
 
@@ -15,6 +16,9 @@ async def voice_handler(message: Message):
 
     try:
         await message.bot.download(file_id, file_path)
-        await message.reply("Обработка завершена!")
+
+        transc = TranscribeAudio()
+        text = await transc.transcribe_async(file_path, "ru")
+        await message.reply(f"Обработка завершена! \n \n {text}")
     except Exception as e:
         await message.reply(f"Ошибка: {str(e)}")

@@ -43,3 +43,5 @@ telegram_token.txt
 Thumbs.db
 
 task.me
+models/
+voices/

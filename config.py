@@ -9,6 +9,10 @@ class Setting:
     def __init__(self):
         self.bot_token: str = os.getenv("BOT_TOKEN")
         self.todoist_token: str = os.getenv("TODOIST_TOKEN")
+        # models
+        self.model_name: str = os.getenv("MODEL_NAME", "base")
+        self.models_path: str = os.getenv("MODELS_PATH", "models/")
+
         self.voice_dir: str = "voices/"
         self.create_folder()
 
