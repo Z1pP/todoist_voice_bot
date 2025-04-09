@@ -22,7 +22,6 @@ async def voice_handler(message: Message):
     try:
         # Загрузка файла
         await message.bot.download(file_id, destination=file_path)
-
         # Транскрибация
         transcb = TranscribeAudio()
 
@@ -30,8 +29,8 @@ async def voice_handler(message: Message):
 
         await message.answer("Обработка завершена!")
         await message.reply(text)
-        logger.info(f"Транскрибация успешна для {file_id}")
 
+        logger.info(f"Транскрибация успешна для {file_id}")
     except FileNotFoundError:
         logger.error(f"Файл {file_path} не найден")
         await message.reply("Файл не найден.")

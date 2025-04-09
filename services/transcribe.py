@@ -19,6 +19,7 @@ class TranscribeAudio:
         self._initialize_model()
 
     def _initialize_model(self):
+        # Инициализация модели распознования речи
         try:
             self.model = whisper.load_model(
                 settings.model_name,

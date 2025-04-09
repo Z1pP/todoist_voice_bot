@@ -1,8 +1,11 @@
 import logging
+import os
 from logging.handlers import RotatingFileHandler
 
 
-def setup_logging():
+def setup_logging(logs_dir: str = "logs/"):
+    # Создание папки для логов
+    os.makedirs(logs_dir, exist_ok=True)
     # Основные настройки
     logging.basicConfig(
         level=logging.INFO,
@@ -12,7 +15,7 @@ def setup_logging():
 
     # Логирование в файл
     file_handler = RotatingFileHandler(
-        "app.log",
+        f"{logs_dir}app.log",
         maxBytes=5 * 1024 * 1024,  # 5MB
         backupCount=5,  # Сохраняем 5 старых логов
     )
@@ -25,7 +28,7 @@ def setup_logging():
 
     # Логирование ошибок в отдельный файл
     error_handler = RotatingFileHandler(
-        "error.log", maxBytes=5 * 1024 * 1024, backupCount=5
+        f"{logs_dir}error.log", maxBytes=5 * 1024 * 1024, backupCount=5
     )
     error_handler.setLevel(logging.ERROR)
     error_formatter = logging.Formatter(
