@@ -6,7 +6,7 @@ from bot.commands import set_commands
 from bot.handlers import include_routers
 from config import settings
 
-log = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 async def create_bot():
@@ -19,4 +19,4 @@ async def create_bot():
     try:
         await dp.start_polling(bot)
     except Exception as e:
-        log.error("Error starting bot: ", str(e))
+        logger.error("Error starting bot: ", str(e))

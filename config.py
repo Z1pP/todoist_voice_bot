@@ -14,9 +14,9 @@ class Setting:
         self.models_path: str = os.getenv("MODELS_PATH", "models/")
 
         self.voice_dir: str = "voices/"
-        self.create_folder()
+        self.__create_folder()
 
-    def create_folder(self):
+    def __create_folder(self):
         if not os.path.exists(self.voice_dir):
             os.makedirs(self.voice_dir)
 
