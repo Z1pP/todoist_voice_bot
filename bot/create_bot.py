@@ -19,4 +19,4 @@ async def create_bot():
     try:
         await dp.start_polling(bot)
     except Exception as e:
-        logger.error("Error starting bot: ", str(e))
+        logger.error("Ошибка при старте бота: ", str(e))
