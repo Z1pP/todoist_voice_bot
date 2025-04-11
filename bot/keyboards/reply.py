@@ -36,4 +36,4 @@ class ReplyKeyboards:
         )
 
 
-kb = ReplyKeyboards()
+reply_kb = ReplyKeyboards()
