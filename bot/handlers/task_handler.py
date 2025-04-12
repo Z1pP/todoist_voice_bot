@@ -54,8 +54,13 @@ async def proccess_llm_processing(message: Message, state: FSMContext):
     """
     Процесс проверки и исправления текста LLM
     """
-    result_text = await request_content_to_llm(message.text)
-    await handle_task_creation(message, state, result_text)
+    try:
+        result_text = await request_content_to_llm(message.text)
+        await handle_task_creation(message, state, result_text)
+    except Exception:
+        await send_message_with_keyboard(
+            message, "Произошла ошибка при работе нашей LLM."
+        )
 
 
 @router.message(
