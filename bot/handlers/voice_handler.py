@@ -15,7 +15,7 @@ from services.transcribe import TranscribeAudio
 
 logger = logging.getLogger(__name__)
 
-router = Router(name="voice_router")
+router = Router(name=__name__)
 
 
 class VoiceMessageHandler:

@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from aiogram.fsm.context import FSMContext
@@ -7,6 +8,8 @@ from bot.constants import MESSAGES
 from bot.keyboards.reply import reply_kb
 from bot.states import TaskCreationStates
 from services.llm import LlmClientAsync
+
+logger = logging.getLogger(__name__)
 
 
 async def send_message_with_keyboard(
@@ -24,5 +27,5 @@ async def handle_task_creation(message: Message, state: FSMContext, task_text: s
 
 
 async def request_content_to_llm(content: str) -> str:
-    client = LlmClientAsync
+    client = LlmClientAsync()
     return await client.make_request_async(content)
