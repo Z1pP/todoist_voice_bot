@@ -1,6 +1,8 @@
 from aiogram import Bot, types
 
-commands = [("start", "Запустить бота"), ("help", "Список команд")]
+commands = [
+    ("start", "Запустить бота"),
+]
 
 
 async def set_commands(bot: Bot):
