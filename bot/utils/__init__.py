@@ -6,7 +6,7 @@ from aiogram.types import Message, ReplyKeyboardMarkup
 from bot.constants import MESSAGES
 from bot.keyboards.reply import reply_kb
 from bot.states import TaskCreationStates
-from services.llm import LlmClient
+from services.llm import LlmClientAsync
 
 
 async def send_message_with_keyboard(
@@ -24,5 +24,5 @@ async def handle_task_creation(message: Message, state: FSMContext, task_text: s
 
 
 async def request_content_to_llm(content: str) -> str:
-    client = LlmClient()
+    client = LlmClientAsync
     return await client.make_request_async(content)
