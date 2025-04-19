@@ -11,8 +11,12 @@ from bot.utils import (
     request_content_to_llm,
     send_message_with_keyboard,
 )
+from todoist import TodoistManagerAsync
 
 router = Router(name=__name__)
+
+
+CONST_PROJECT_NAME = "Тестовый проект"
 
 
 @router.message(F.text.in_(MENU["add_task"]))
@@ -21,7 +25,7 @@ async def add_task_command(message: Message, state: FSMContext):
     Обработчик начала создания задачи
     """
     await send_message_with_keyboard(
-        message, MESSAGES["choose_input"], reply_kb.type_input
+        message, MESSAGES["choose_input"], reply_kb.type_input_btn
     )
     # Устанавливаем состояние ожидания выбора метода ввода
     await state.set_state(TaskCreationStates.WAITING_CHOICE_INPUT_METHOD)
@@ -77,8 +81,15 @@ async def proccess_confirmation_text_yes(message: Message, state: FSMContext):
         task_data: TaskData = await task_parser.parse_llm_response(
             json_string=result_text
         )
-        await message.answer("Создаю задачу...")
-        await message.answer(f"Задача создана: {task_data.title}")
+
+        manager = TodoistManagerAsync()
+
+        project_id = await manager.get_project_id(project_name=CONST_PROJECT_NAME)
+        task = await manager.add_task(task_data=task_data, project_id=project_id)
+
+        text = MESSAGES["task_created"].format(task=task.content)
+        await send_message_with_keyboard(message, text, reply_kb.menu_btn)
+
     except Exception as e:
         await message.answer(str(e))
     finally:
@@ -100,5 +111,5 @@ async def proccess_confirmation_text_no(message: Message, state: FSMContext):
 @router.message(F.text.in_(MENU["list_tasks"]))
 async def list_tasks_command(message: Message):
     await send_message_with_keyboard(
-        message, MESSAGES["in_development"], reply_kb.cancel
+        message, MESSAGES["in_development"], reply_kb.cancel_btn
     )
