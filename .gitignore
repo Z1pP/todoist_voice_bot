@@ -45,3 +45,5 @@ Thumbs.db
 task.me
 models/
 voices/
+
+.db
