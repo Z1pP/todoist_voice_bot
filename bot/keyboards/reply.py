@@ -19,11 +19,7 @@ class ReplyKeyboards:
 
     @property
     def menu_btn(self):
-        buttons = [
-            KeyboardButton(text=button.value)
-            for button in MenuButtons
-            if button not in (MenuButtons.BACK, MenuButtons.CANCEL)
-        ]
+        buttons = [KeyboardButton(text=button.value) for button in MenuButtons]
         return ReplyKeyboardMarkup(
             keyboard=[
                 buttons[:3],
@@ -44,7 +40,7 @@ class ReplyKeyboards:
     @property
     def answer_btn(self):
         return ReplyKeyboardMarkup(
-            keyboard=[KeyboardButton(text=button.value) for button in Answers],
+            keyboard=[[KeyboardButton(text=button.value) for button in Answers]],
             resize_keyboard=True,
             one_time_keyboard=True,
         )
@@ -52,14 +48,14 @@ class ReplyKeyboards:
     @property
     def cancel_btn(self):
         return ReplyKeyboardMarkup(
-            keyboard=[KeyboardButton(text=button.value) for button in CommonButtons],
+            keyboard=[[KeyboardButton(text=button.value) for button in CommonButtons]],
             resize_keyboard=True,
             one_time_keyboard=True,
         )
 
     @property
     def settings_menu_btn(self):
-        buttons = [KeyboardButton(text=button.value) for button in SettingsButtons]
+        buttons = [[KeyboardButton(text=button.value) for button in SettingsButtons]]
         return ReplyKeyboardMarkup(
             keyboard=[
                 buttons[:2],

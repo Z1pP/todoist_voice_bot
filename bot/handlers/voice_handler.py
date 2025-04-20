@@ -6,10 +6,10 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
 
-from bot.constants import EXC_MESSAGES
+from bot.constants import ExceptionMessages
 from bot.exceptions import AudioProcessingError, TranscriptionError
+from bot.handlers.task_handler import proccess_llm_processing
 from bot.states import TaskCreationStates
-from bot.utils import handle_task_creation, request_content_to_llm
 from config import settings
 from services.transcribe import TranscribeAudio
 
@@ -43,7 +43,7 @@ class VoiceMessageHandler:
             await message.bot.download(message.voice.file_id, destination=file_path)
         except Exception as e:
             logger.error(f"Ошибка при загрузке файла: {str(e)}")
-            raise AudioProcessingError(EXC_MESSAGES["download_voice"])
+            raise AudioProcessingError(ExceptionMessages.DOWNLOAD_VOICE.value)
 
     async def transcribe_voice(self, file_path: Path) -> str:
         """Транскрибирование голоса в текст."""
@@ -51,7 +51,7 @@ class VoiceMessageHandler:
             return await self.transcriber.transcribe_async(file_path)
         except Exception as e:
             logger.error(f"Ошибка при транскрибировании: {e}")
-            raise TranscriptionError(EXC_MESSAGES["transcribe_voice"])
+            raise TranscriptionError(ExceptionMessages.TRANSCRIBE_VOICE.value)
 
     def cleanup_file(self, file_path: Path) -> None:
         """Удаление временных файлов."""
@@ -66,9 +66,7 @@ class VoiceMessageProcessor:
     def __init__(self):
         self.handler = VoiceMessageHandler(TranscribeAudio())
 
-    async def process_voice_message(
-        self, message: Message, state: FSMContext
-    ) -> Optional[str]:
+    async def process_voice_message(self, message: Message) -> Optional[str]:
         file_path = self.handler._get_file_path(message.voice.file_id)
 
         try:
@@ -87,11 +85,9 @@ class VoiceMessageProcessor:
             self.handler.cleanup_file(file_path)
 
 
-@router.message(TaskCreationStates.WAITING_VOICE_INPUT, F.voice)
-async def voice_handler(message: Message, state: FSMContext) -> None:
-    processor = VoiceMessageProcessor()
+@router.message(TaskCreationStates.WAINTING_INPUT, F.voice)
+async def proccess_voice_input(message: Message, state: FSMContext):
+    voice_processor = VoiceMessageProcessor()
 
-    if text := await processor.process_voice_message(message, state):
-        await state.update_data(text=text)
-        result_text = await request_content_to_llm(text)
-        await handle_task_creation(message, state, result_text)
+    if text := await voice_processor.process_voice_message(message):
+        await proccess_llm_processing(message, state, text)

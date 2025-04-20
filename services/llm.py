@@ -5,7 +5,7 @@ from datetime import datetime
 
 from openai import AsyncOpenAI, OpenAI
 
-from bot.constants import LLM_PROMPT
+from bot.constants.prompts import LLM_PROMPT
 from config import settings
 
 logger = logging.getLogger(__name__)

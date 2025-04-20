@@ -30,10 +30,20 @@ class TaskParser:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
-    async def parse_llm_response(self, json_string: str) -> TaskData:
+    # Обработка текста полсе llm
+    async def parse_llm_response(self, json_string: str) -> list[TaskData]:
         try:
             data = json.loads(json_string)
-            return await self._validate_and_transform(data)
+
+            if not isinstance(data, list):
+                data = [data]
+
+            tasks = []
+            for item in data:
+                task = await self._validate_and_transform(item)
+                tasks.append(task)
+
+            return tasks
         except json.JSONDecodeError as e:
             self.logger.error(f"Ошибка при парсинге JSON: {e}")
             raise ParsingError("Не верный JSON формат.") from e
